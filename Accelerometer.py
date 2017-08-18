@@ -58,8 +58,8 @@ def ErrorEvent(e, eCode, description):
     print("Error %i : %s" % (eCode, description))
 
 def AccelerationChangeHandler(e, acceleration, timestamp):
-    print("Acceleration(gravities): %f  %f  %f" % (acceleration[0], acceleration[1], acceleration[2]))
-    print("Acceleration(m/s^2): %f  %f  %f" % (acceleration[0]*9.80665, acceleration[1]*9.80665, acceleration[2]*9.80665))
+    print("Aceleracion(gravedades) [x,y,z]: %f  %f  %f" % (acceleration[0], acceleration[1], acceleration[2]))
+    print("Aceleracion(m/s^2) [x,y,z]: %f  %f  %f" % (acceleration[0]*9.80665, acceleration[1]*9.80665, acceleration[2]*9.80665))
     print("Timestamp: %f\n" % timestamp)
     t.append(timestamp) 
     ac0.append(acceleration[0]) 
@@ -121,10 +121,8 @@ except PhidgetException as e:
     readin = sys.stdin.read(1)
     exit(1)
 
-print("Gathering data for 20 seconds...")
-time.sleep(20)
-
-#print "".join(str(i) for i in t )
+print("Muestreando Aceleraciones por 5 segundos...")
+time.sleep(5)
 
 
 try:
@@ -136,11 +134,29 @@ except PhidgetException as e:
     exit(1) 
 print("Closed Accelerometer device")
 
-plt.plot(t,ac0)
-plt.show()
-plt.plot(t,ac1)
-plt.show()
-plt.plot(t,ac2)
-plt.show()
+# Graficar las aceleraciones en los tres ejes 
+
+#plt.plot(t,ac0)
+#plt.show()
+#plt.plot(t,ac1)
+#plt.show()
+#plt.plot(t,ac2)
+#plt.show()
+
+# Obtener valor promedio de las aceleraciones
+
+ac0_np = np.array(ac0)
+ac1_np = np.array(ac1)
+ac2_np = np.array(ac2)
+
+print("Valor Promedio de la aceleracion X: %f g \n" % ( np.mean(ac0_np)))
+print("Valor Promedio de la aceleracion X: %f m/s^2 \n" % (9.80665*np.mean(ac0_np)))
+
+print("Valor Promedio de la aceleracion Y: %f g \n" % ( np.mean(ac1_np)))
+print("Valor Promedio de la aceleracion Y: %f m/s^2 \n" % (9.80665*np.mean(ac1_np)))
+
+print("Valor Promedio de la aceleracion Z: %f g \n" % ( np.mean(ac2_np)))
+print("Valor Promedio de la aceleracion Z: %f m/s^2 \n" % (9.80665*np.mean(ac2_np)))
+
 exit(0)
                      
